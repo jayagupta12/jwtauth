@@ -7,18 +7,31 @@ import 'package:jwtauth/utilities/httpinterceptor.dart';
 
 
 class ApiService extends BaseService {
-  Dio dio = new Dio();
+  Dio dio ;
   ApiService() {
-    initializeDio();
+    dio= new Dio()
+    ..options.baseUrl=BASE_URL;
+    initializeDio();// karu
   }
 
   void initializeDio() {
+  // dio.options=BaseOptions(baseUrl: "http://192.168.1.12:5000");
+    //var token=SharedPreference().getUser(); //get the token from shared pref
     dio.interceptors.add(DioCacheManager(CacheConfig(
       baseUrl: BASE_URL,
       defaultMaxAge: Duration(minutes: 5),
     )).interceptor);
 
     dio.interceptors.add(LoggingInterceptors());
+
+    // dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) {
+    //   // Do something before request is sent
+    //   options.headers["Authorization"] = "Bearer " + token.toString();
+    //   return options;
+    // },onResponse:(Response response) {
+    //     // Do something with response data
+    //     return response; // continue
+    // }));
   }
   
 
